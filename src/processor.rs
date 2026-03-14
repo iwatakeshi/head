@@ -151,11 +151,7 @@ fn first_n_bytes(input: &mut dyn Read, output: &mut dyn Write, n: u64) -> Result
 ///
 /// Maintains a ring buffer of `n` bytes and flushes bytes that leave the
 /// window in chunks for efficiency.
-fn all_but_last_n_bytes(
-    input: &mut dyn Read,
-    output: &mut dyn Write,
-    n: u64,
-) -> Result<()> {
+fn all_but_last_n_bytes(input: &mut dyn Read, output: &mut dyn Write, n: u64) -> Result<()> {
     if n == 0 {
         io::copy(input, output)?;
         return Ok(());
@@ -263,10 +259,7 @@ mod tests {
     #[test]
     fn all_but_last_n_lines_basic() {
         let input = b"a\nb\nc\nd\ne\n";
-        assert_eq!(
-            run_line(Count::AllButLast(2), b'\n', input),
-            b"a\nb\nc\n"
-        );
+        assert_eq!(run_line(Count::AllButLast(2), b'\n', input), b"a\nb\nc\n");
     }
 
     #[test]

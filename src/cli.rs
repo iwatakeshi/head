@@ -28,12 +28,7 @@ pub struct Cli {
 
     /// Print the first NUM lines instead of the first 10; with the leading
     /// '-', print all but the last NUM lines of each file.
-    #[arg(
-        short = 'n',
-        long,
-        value_name = "[-]NUM",
-        allow_hyphen_values = true
-    )]
+    #[arg(short = 'n', long, value_name = "[-]NUM", allow_hyphen_values = true)]
     pub lines: Option<String>,
 
     /// Never print headers giving file names.
@@ -140,10 +135,7 @@ mod tests {
     #[test]
     fn test_end_of_options() {
         // After `--`, `-5` is treated as a filename, not a shorthand
-        assert_eq!(
-            preprocess(&["head", "--", "-5"]),
-            vec!["head", "--", "-5"]
-        );
+        assert_eq!(preprocess(&["head", "--", "-5"]), vec!["head", "--", "-5"]);
     }
 
     #[test]

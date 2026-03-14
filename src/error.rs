@@ -8,10 +8,6 @@ pub enum HeadError {
     #[error("invalid number of {kind}: {reason}")]
     InvalidCount { kind: String, reason: String },
 
-    /// An I/O error occurred while reading a file.
-    #[error("error reading '{path}': {source}")]
-    FileRead { path: String, source: io::Error },
-
     /// An I/O error occurred while writing output.
     #[error("write error: {0}")]
     Write(#[from] io::Error),

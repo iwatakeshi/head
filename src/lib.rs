@@ -23,7 +23,7 @@ pub mod processor;
 pub mod size;
 
 use cli::{preprocess_args, Cli};
-use config::{Count, HeaderMode, HeadConfig, InputSource, OutputMode};
+use config::{Count, HeadConfig, HeaderMode, InputSource, OutputMode};
 use error::HeadError;
 use processor::{ByteProcessor, LineProcessor, Processor};
 
@@ -123,26 +123,28 @@ pub fn run() -> i32 {
                     had_error = true;
                 }
             }
-            InputSource::File(path) => {
-                match File::open(path) {
-                    Ok(mut file) => {
-                        if let Err(e) = processor.process(&mut file, &mut output) {
-                            eprintln!("head: {}: {e}", path.display());
-                            had_error = true;
-                        }
-                    }
-                    Err(e) => {
-                        eprintln!(
-                            "head: cannot open '{}' for reading: {}",
-                            path.display(),
-                            fmt_io_err(&e)
-                        );
+            InputSource::File(path) => match File::open(path) {
+                Ok(mut file) => {
+                    if let Err(e) = processor.process(&mut file, &mut output) {
+                        eprintln!("head: {}: {e}", path.display());
                         had_error = true;
                     }
                 }
-            }
+                Err(e) => {
+                    eprintln!(
+                        "head: cannot open '{}' for reading: {}",
+                        path.display(),
+                        fmt_io_err(&e)
+                    );
+                    had_error = true;
+                }
+            },
         }
     }
 
-    if had_error { 1 } else { 0 }
+    if had_error {
+        1
+    } else {
+        0
+    }
 }

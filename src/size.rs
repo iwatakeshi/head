@@ -45,8 +45,8 @@ pub fn parse_size(s: &str) -> Result<u64, String> {
         .parse()
         .map_err(|_| format!("invalid count: {s:?}"))?;
 
-    let multiplier = get_multiplier(suffix)
-        .ok_or_else(|| format!("invalid suffix in count: {suffix:?}"))?;
+    let multiplier =
+        get_multiplier(suffix).ok_or_else(|| format!("invalid suffix in count: {suffix:?}"))?;
 
     let result = base
         .checked_mul(multiplier)
@@ -57,9 +57,7 @@ pub fn parse_size(s: &str) -> Result<u64, String> {
 
 /// Split the leading digit sequence from the trailing suffix.
 fn split_num_suffix(s: &str) -> (&str, &str) {
-    let pos = s
-        .find(|c: char| !c.is_ascii_digit())
-        .unwrap_or(s.len());
+    let pos = s.find(|c: char| !c.is_ascii_digit()).unwrap_or(s.len());
     (&s[..pos], &s[pos..])
 }
 

@@ -40,11 +40,7 @@ fn default_first_10_lines() {
         .flat_map(|i| format!("line{i}\n").into_bytes())
         .collect();
 
-    head()
-        .arg(f.path())
-        .assert()
-        .success()
-        .stdout(expected);
+    head().arg(f.path()).assert().success().stdout(expected);
 }
 
 #[test]
@@ -225,7 +221,12 @@ fn multiple_files_headers() {
     let f2 = make_file(b"file2_line1\nfile2_line2\n");
 
     let out = head()
-        .args(["-n", "1", f1.path().to_str().unwrap(), f2.path().to_str().unwrap()])
+        .args([
+            "-n",
+            "1",
+            f1.path().to_str().unwrap(),
+            f2.path().to_str().unwrap(),
+        ])
         .assert()
         .success()
         .get_output()
@@ -433,7 +434,12 @@ fn blank_line_between_multiple_files() {
     let f2 = make_file(b"world\n");
 
     let out = head()
-        .args(["-n", "1", f1.path().to_str().unwrap(), f2.path().to_str().unwrap()])
+        .args([
+            "-n",
+            "1",
+            f1.path().to_str().unwrap(),
+            f2.path().to_str().unwrap(),
+        ])
         .assert()
         .success()
         .get_output()
